@@ -36,20 +36,20 @@ if __name__ == '__main__':
                 signal_forger = SignalForger.SignalForger(samples, int(8e6), int(8e6))
 
                 plt.figure(0)
-                plt.plot(signal_forger.samples[1000:9000])
+                plt.plot(signal_forger.samples)
 
                 plt.figure(1)
-                plt.plot(signal_forger.samples_absolute[1000:9000])
+                plt.plot(signal_forger.samples_absolute)
 
                 plt.figure(2)
-                plt.plot(signal_forger.samples_filtered[1000:9000])
+                plt.plot(signal_forger.samples_filtered)
 
                 # signal_binary = signal_forger.binary_signal()
                 plt.figure(3)
-                plt.plot(signal_forger.samples_binary[1000:9000])
+                plt.plot(signal_forger.samples_binary)
 
                 plt.figure(4)
-                plt.plot(signal_forger.forged_signal[1000:9000])
+                plt.plot(signal_forger.forged_signal)
 
                 plt.show()
 
@@ -105,20 +105,20 @@ if __name__ == '__main__':
                     signal_forger = SignalForger.SignalForger(samples, int(8e6), int(8e6))
 
                     plt.figure(0)
-                    plt.plot(signal_forger.samples[1000:9000])
+                    plt.plot(signal_forger.samples)
 
                     plt.figure(1)
-                    plt.plot(signal_forger.samples_absolute[1000:9000])
+                    plt.plot(signal_forger.samples_absolute)
 
                     plt.figure(2)
-                    plt.plot(signal_forger.samples_filtered[1000:9000])
+                    plt.plot(signal_forger.samples_filtered)
 
                     # signal_binary = signal_forger.binary_signal()
                     plt.figure(3)
-                    plt.plot(signal_forger.samples_binary[1000:9000])
+                    plt.plot(signal_forger.samples_binary)
 
                     plt.figure(4)
-                    plt.plot(signal_forger.forged_signal[1000:9000])
+                    plt.plot(signal_forger.forged_signal)
 
                     plt.show()
                     print("Sygnal pobrany. Wcisnij 1 aby nadac.\n")
