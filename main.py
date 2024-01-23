@@ -4,6 +4,8 @@ import SignalReceiver
 import SignalForger
 import matplotlib.pyplot as plt
 import SignalTransmitter
+import warnings
+warnings.filterwarnings("ignore")
 
 if __name__ == '__main__':
     running = 1
@@ -36,20 +38,50 @@ if __name__ == '__main__':
                 signal_forger = SignalForger.SignalForger(samples, int(8e6), int(8e6))
 
                 plt.figure(0)
-                plt.plot(signal_forger.samples)
+
+                bins_number = 200  # na ile ma być podzielony histogram
+                histo, bins, _ = plt.hist(signal_forger.samples_filtered, bins=bins_number, color='blue', alpha=0.7)
+                plt.title('Histogram Rozkładu Amplitud')
+                plt.xlabel('Wartości Amplitudy')
+
+                min_amplitude = np.min(signal_forger.samples_filtered)
+                max_amplitude = np.max(signal_forger.samples_filtered)
+                threshold = (max_amplitude - min_amplitude) / 2
+                plt.axvline(threshold, color='red', linestyle='dashed', linewidth=2)
 
                 plt.figure(1)
-                plt.plot(signal_forger.samples_absolute)
+                plt.plot(signal_forger.samples_absolute, c='#404040')
+                plt.plot(signal_forger.samples_filtered)
+                plt.xlabel("Time")
+                plt.title("Moduł sygnału wraz z filtracją")
 
                 plt.figure(2)
-                plt.plot(signal_forger.samples_filtered)
-
-                # signal_binary = signal_forger.binary_signal()
-                plt.figure(3)
                 plt.plot(signal_forger.samples_binary)
+                plt.xlabel("Time")
+                plt.title("Sygnał binarny")
+
+                psd = np.fft.fft(signal_forger.samples)
+                psd_dB = 10 * np.log10(psd)
+                max_psd = np.argmax(psd)
+                freq_shift = -signal_forger.samples_bandwidth / 2 + (max_psd / len(signal_forger.samples)) * signal_forger.samples_bandwidth
+
+                f = np.linspace(signal_forger.samples_bandwidth / -2, signal_forger.samples_bandwidth / 2, len(psd))
+                plt.figure(3)
+#                                                                                                                                                                                                                       print("Chujek")
+
+                plt.plot(f / 1e6, psd_dB)
+                plt.xlabel("Frequency [MHz]")
+                plt.ylabel("PSD")
+                plt.title("Sygnał w dziedzinie częstotliwości")
+
 
                 plt.figure(4)
+                plt.plot(signal_forger.samples)
                 plt.plot(signal_forger.forged_signal)
+                plt.title("Sygnał pierwotny oraz sygnał przeprocesowany")
+                plt.xlabel('Czas')
+                plt.ylabel('Amplituda')
+                plt.grid(True)
 
                 plt.show()
 
@@ -105,20 +137,50 @@ if __name__ == '__main__':
                     signal_forger = SignalForger.SignalForger(samples, int(8e6), int(8e6))
 
                     plt.figure(0)
-                    plt.plot(signal_forger.samples)
+
+                    bins_number = 200  # na ile ma być podzielony histogram
+                    histo, bins, _ = plt.hist(signal_forger.samples_filtered, bins=bins_number, color='blue', alpha=0.7)
+                    plt.title('Histogram Rozkładu Amplitud')
+                    plt.xlabel('Wartości Amplitudy')
+
+                    min_amplitude = np.min(signal_forger.samples_filtered)
+                    max_amplitude = np.max(signal_forger.samples_filtered)
+                    threshold = (max_amplitude - min_amplitude) / 2
+                    plt.axvline(threshold, color='red', linestyle='dashed', linewidth=2)
 
                     plt.figure(1)
-                    plt.plot(signal_forger.samples_absolute)
+                    plt.plot(signal_forger.samples_absolute, c='#404040')
+                    plt.plot(signal_forger.samples_filtered)
+                    plt.xlabel("Time")
+                    plt.title("Moduł sygnału wraz z filtracją")
 
                     plt.figure(2)
-                    plt.plot(signal_forger.samples_filtered)
-
-                    # signal_binary = signal_forger.binary_signal()
-                    plt.figure(3)
                     plt.plot(signal_forger.samples_binary)
+                    plt.xlabel("Time")
+                    plt.title("Sygnał binarny")
+
+                    psd = np.fft.fft(signal_forger.samples)
+                    psd_dB = 10 * np.log10(psd)
+                    max_psd = np.argmax(psd)
+                    freq_shift = -signal_forger.samples_bandwidth / 2 + (
+                                max_psd / len(signal_forger.samples)) * signal_forger.samples_bandwidth
+
+                    f = np.linspace(signal_forger.samples_bandwidth / -2, signal_forger.samples_bandwidth / 2, len(psd))
+                    plt.figure(3)
+                    #                                                                                                                                                                                                                       print("Chujek")
+
+                    plt.plot(f / 1e6, psd_dB)
+                    plt.xlabel("Frequency [MHz]")
+                    plt.ylabel("PSD")
+                    plt.title("Sygnał w dziedzinie częstotliwości")
 
                     plt.figure(4)
+                    plt.plot(signal_forger.samples)
                     plt.plot(signal_forger.forged_signal)
+                    plt.title("Sygnał pierwotny oraz sygnał przeprocesowany")
+                    plt.xlabel('Czas')
+                    plt.ylabel('Amplituda')
+                    plt.grid(True)
 
                     plt.show()
                     print("Sygnal pobrany. Wcisnij 1 aby nadac.\n")
